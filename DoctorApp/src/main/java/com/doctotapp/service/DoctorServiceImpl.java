@@ -1,0 +1,89 @@
+package com.doctotapp.service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+//import java.util.stream.Collector;
+//import java.util.stream.Collectors;
+//import java.util.stream.Collectors;
+
+import com.doctorapp.exceptions.DoctorNotFoundException;
+import com.doctorapp.exceptions.IdNotFoundException;
+import com.doctotapp.dao.*;
+import com.doctotapp.model.Doctor;
+
+public class DoctorServiceImpl implements DoctorService {
+	DoctorDao doctorDao = new DoctorDaoImpl();
+
+	@Override
+	public void addDoctor(Doctor doctor) {
+		doctorDao.addDoctor(doctor);
+
+	}
+
+	@Override
+	public void updateDoctor(int doctorId, double fees) throws DoctorNotFoundException{
+	doctorDao.updateDoctor(doctorId, fees);
+	}
+
+	@Override
+	public Doctor getById(int doctorId) throws IdNotFoundException {
+
+		return doctorDao.findById(doctorId);
+	}
+
+	@Override
+	public void deleteDoctor(int doctorId) throws DoctorNotFoundException {
+		doctorDao.deleteDoctor(doctorId);
+
+	}
+
+	@Override
+	public List<Doctor> getAllDoctors()throws DoctorNotFoundException {
+		List<Doctor> getAll=doctorDao.findAllDoctors();
+		if(getAll.isEmpty()) {
+			throw new DoctorNotFoundException("DOCTORS ARE NOT FOUND");
+		}
+		return getAll;
+	}
+
+	@Override
+	public List<Doctor> getBySpeciality(String speciality) throws DoctorNotFoundException{
+		List<Doctor> getSpeciality=doctorDao.findBySpeciality(speciality);
+		if(getSpeciality.isEmpty()) {
+			throw new DoctorNotFoundException("SPECIALITY IS NOT FOUND");
+		}
+		
+		
+		return getSpeciality;
+	}
+
+	@Override
+	public List<Doctor> getBySpecialityAndExp(String speciality, int experience)throws DoctorNotFoundException {
+		List<Doctor> getSpecialityAndExperience=doctorDao.findBySpecialityAndExp(speciality, experience);
+		if(getSpecialityAndExperience.isEmpty()) {
+			throw new DoctorNotFoundException("SPECIALITY AND EXPERIENCED DOCTOR IS NOT FOUND");
+		}
+		
+		
+		return getSpecialityAndExperience;
+	}
+
+	@Override
+	public List<Doctor> getBySpecialityAndFees(String speciality, double fees) throws DoctorNotFoundException{
+		List<Doctor> getSpecialityAndFees=doctorDao.findBySpecialityAndFees(speciality, fees);
+		if(getSpecialityAndFees.isEmpty()) {
+			throw new DoctorNotFoundException("SPECIALITY AND FEES IS NOT FOUND");
+		}
+		return getSpecialityAndFees;
+	}
+
+	@Override
+	public List<Doctor> getByAvailailabilty(LocalDateTime startTime)throws DoctorNotFoundException {
+		List<Doctor> getAvailable=doctorDao.findByAvailailabilty(startTime);
+		if(getAvailable.isEmpty()) {
+			throw new DoctorNotFoundException("DOCTOR IS NOT AVAILABLE");
+		}
+		return getAvailable;
+	}
+
+}
