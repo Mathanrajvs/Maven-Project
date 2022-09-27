@@ -20,26 +20,26 @@ public class DoctorDaoImpl implements DoctorDao {
 	public void addDoctor(Doctor doctor) {
 
 		Connection connection = DbConnection.openConnection();
-		PreparedStatement ps = null;
+		PreparedStatement preparedstatement = null;
 		try {
-			ps = connection.prepareStatement(Queries.INSERTQUERY);
-			ps.setString(1, doctor.getDoctName());
-			ps.setString(2, doctor.getSpeciality());
-			ps.setDouble(3, doctor.getFees());
-			ps.setInt(4, doctor.getExperience());
-			ps.setTimestamp(5, Timestamp.valueOf(doctor.getStartTime()));
-			ps.setTimestamp(6, Timestamp.valueOf(doctor.getEndTime()));
-			ps.execute();
+			preparedstatement = connection.prepareStatement(Queries.INSERTQUERY);
+			preparedstatement.setString(1, doctor.getDoctName());
+			preparedstatement.setString(2, doctor.getSpeciality());
+			preparedstatement.setDouble(3, doctor.getFees());
+			preparedstatement.setInt(4, doctor.getExperience());
+			preparedstatement.setTimestamp(5, Timestamp.valueOf(doctor.getStartTime()));
+			preparedstatement.setTimestamp(6, Timestamp.valueOf(doctor.getEndTime()));
+			preparedstatement.execute();
 
-			ps.close();
+			preparedstatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 
 			try {
 				DbConnection.closeConnection();
-				if (ps != null)
-					ps.close();
+				if (preparedstatement != null)
+					preparedstatement.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -52,23 +52,23 @@ public class DoctorDaoImpl implements DoctorDao {
 	@Override
 	public void updateDoctor(int doctorId, double fees) {
 		Connection connection = DbConnection.openConnection();
-		PreparedStatement ps = null;
+		PreparedStatement preparedstatement = null;
 		try {
-			ps = connection.prepareStatement(Queries.UPDATEQUERY);
-			ps.setDouble(1, fees);
-			ps.setInt(2, doctorId);
-			boolean rs = ps.execute();
-			if (rs == false)
+			preparedstatement = connection.prepareStatement(Queries.UPDATEQUERY);
+			preparedstatement.setDouble(1, fees);
+			preparedstatement.setInt(2, doctorId);
+			boolean result = preparedstatement.execute();
+			if (result == false)
 				System.out.println("UPDATED SUCCESSFULLY");
-			ps.close();
+			preparedstatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 
 			try {
 				DbConnection.closeConnection();
-				if (ps != null)
-					ps.close();
+				if (preparedstatement != null)
+					preparedstatement.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -81,21 +81,21 @@ public class DoctorDaoImpl implements DoctorDao {
 	@Override
 	public Doctor findById(int doctorId) {
 		Connection connection = DbConnection.openConnection();
-		PreparedStatement ps = null;
+		PreparedStatement preparedstatement = null;
 		Doctor doctor = null;
 		try {
-			ps = connection.prepareStatement(Queries.FINDQUERY);
-			ps.setInt(1, doctorId);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
+			preparedstatement = connection.prepareStatement(Queries.FINDQUERY);
+			preparedstatement.setInt(1, doctorId);
+			ResultSet result = preparedstatement.executeQuery();
+			while (result.next()) {
 				doctor = new Doctor();
-				String name = rs.getString(1);
-				int id = rs.getInt(2);
-				String special = rs.getString(3);
-				double fees = rs.getDouble(4);
-				int experience = rs.getInt(5);
-				Timestamp startTime = rs.getTimestamp(6);
-				Timestamp endTime = rs.getTimestamp(7);
+				String name = result.getString(1);
+				int id = result.getInt(2);
+				String special = result.getString(3);
+				double fees = result.getDouble(4);
+				int experience = result.getInt(5);
+				Timestamp startTime = result.getTimestamp(6);
+				Timestamp endTime = result.getTimestamp(7);
 				doctor.setDoctName(name);
 				doctor.setDoctotId(id);
 				doctor.setSpeciality(special);
@@ -106,15 +106,15 @@ public class DoctorDaoImpl implements DoctorDao {
 
 			}
 
-			ps.close();
+			preparedstatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 
 			try {
 				DbConnection.closeConnection();
-				if (ps != null)
-					ps.close();
+				if (preparedstatement != null)
+					preparedstatement.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -127,22 +127,22 @@ public class DoctorDaoImpl implements DoctorDao {
 	@Override
 	public void deleteDoctor(int doctorId) {
 		Connection connection = DbConnection.openConnection();
-		PreparedStatement ps = null;
+		PreparedStatement preparedstatement = null;
 		try {
-			ps = connection.prepareStatement(Queries.DELETEQUERY);
-			ps.setInt(1, doctorId);
-			boolean rs = ps.execute();
-			if (rs == false)
+			preparedstatement = connection.prepareStatement(Queries.DELETEQUERY);
+			preparedstatement.setInt(1, doctorId);
+			boolean result = preparedstatement.execute();
+			if (result == false)
 				System.out.println("DELETED SUCCESSFULLY");
-			ps.close();
+			preparedstatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 
 			try {
 				DbConnection.closeConnection();
-				if (ps != null)
-					ps.close();
+				if (preparedstatement != null)
+					preparedstatement.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -156,21 +156,21 @@ public class DoctorDaoImpl implements DoctorDao {
 	public List<Doctor> findAllDoctors() {
 		List<Doctor> showAllDoctor = new ArrayList<>();
 		Connection connection = DbConnection.openConnection();
-		PreparedStatement ps = null;
+		PreparedStatement preparedstatement = null;
 		Doctor doctor = null;
 		try {
-			ps = connection.prepareStatement(Queries.SELECTQUERY);
-			ps.execute();
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
+			preparedstatement = connection.prepareStatement(Queries.SELECTQUERY);
+			preparedstatement.execute();
+			ResultSet result = preparedstatement.executeQuery();
+			while (result.next()) {
 				doctor = new Doctor();
-				String name = rs.getString(1);
-				int id = rs.getInt(2);
-				String special = rs.getString(3);
-				double fees = rs.getDouble(4);
-				int experience = rs.getInt(5);
-				Timestamp startTime = rs.getTimestamp(6);
-				Timestamp endTime = rs.getTimestamp(7);
+				String name = result.getString(1);
+				int id = result.getInt(2);
+				String special = result.getString(3);
+				double fees = result.getDouble(4);
+				int experience = result.getInt(5);
+				Timestamp startTime = result.getTimestamp(6);
+				Timestamp endTime = result.getTimestamp(7);
 				doctor.setDoctName(name);
 				doctor.setDoctotId(id);
 				doctor.setSpeciality(special);
@@ -181,15 +181,15 @@ public class DoctorDaoImpl implements DoctorDao {
 				showAllDoctor.add(doctor);
 			}
 
-			ps.close();
+			preparedstatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 
 			try {
 				DbConnection.closeConnection();
-				if (ps != null)
-					ps.close();
+				if (preparedstatement != null)
+					preparedstatement.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -204,21 +204,21 @@ public class DoctorDaoImpl implements DoctorDao {
 	public List<Doctor> findBySpeciality(String speciality) {
 		List<Doctor> showSpeciality = new ArrayList<>();
 		Connection connection = DbConnection.openConnection();
-		PreparedStatement ps = null;
+		PreparedStatement preparedstatement = null;
 		Doctor doctor;
 		try {
-			ps = connection.prepareStatement(Queries.SPECIALITYQUERY);
-			ps.setString(1, speciality);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
+			preparedstatement = connection.prepareStatement(Queries.SPECIALITYQUERY);
+			preparedstatement.setString(1, speciality);
+			ResultSet result = preparedstatement.executeQuery();
+			while (result.next()) {
 				doctor = new Doctor();
-				String name = rs.getString(1);
-				int id = rs.getInt(2);
-				String special = rs.getString(3);
-				double fees = rs.getDouble(4);
-				int experience = rs.getInt(5);
-				Timestamp startTime = rs.getTimestamp(6);
-				Timestamp endTime = rs.getTimestamp(7);
+				String name = result.getString(1);
+				int id = result.getInt(2);
+				String special = result.getString(3);
+				double fees = result.getDouble(4);
+				int experience = result.getInt(5);
+				Timestamp startTime = result.getTimestamp(6);
+				Timestamp endTime = result.getTimestamp(7);
 				doctor.setDoctName(name);
 				doctor.setDoctotId(id);
 				doctor.setSpeciality(special);
@@ -229,15 +229,15 @@ public class DoctorDaoImpl implements DoctorDao {
 				showSpeciality.add(doctor);
 			}
 
-			ps.close();
+			preparedstatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 
 			try {
 				DbConnection.closeConnection();
-				if (ps != null)
-					ps.close();
+				if (preparedstatement != null)
+					preparedstatement.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -261,22 +261,22 @@ public class DoctorDaoImpl implements DoctorDao {
 	public List<Doctor> findBySpecialityAndExp(String speciality, int experience) {
 		List<Doctor> showSpeciality = new ArrayList<>();
 		Connection connection = DbConnection.openConnection();
-		PreparedStatement ps = null;
+		PreparedStatement preparedstatement = null;
 		Doctor doctor = null;
 		try {
-			ps = connection.prepareStatement(Queries.SPECIALITYANDEXPERIENCEQUERY);
-			ps.setString(1, speciality);
-			ps.setDouble(2, experience);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
+			preparedstatement = connection.prepareStatement(Queries.SPECIALITYANDEXPERIENCEQUERY);
+			preparedstatement.setString(1, speciality);
+			preparedstatement.setDouble(2, experience);
+			ResultSet result = preparedstatement.executeQuery();
+			while (result.next()) {
 				doctor = new Doctor();
-				String name = rs.getString(1);
-				int id = rs.getInt(2);
-				String special = rs.getString(3);
-				double fees = rs.getDouble(4);
-				int experiences = rs.getInt(5);
-				Timestamp startTime = rs.getTimestamp(6);
-				Timestamp endTime = rs.getTimestamp(7);
+				String name = result.getString(1);
+				int id = result.getInt(2);
+				String special = result.getString(3);
+				double fees = result.getDouble(4);
+				int experiences = result.getInt(5);
+				Timestamp startTime = result.getTimestamp(6);
+				Timestamp endTime = result.getTimestamp(7);
 				doctor.setDoctName(name);
 				doctor.setDoctotId(id);
 				doctor.setSpeciality(special);
@@ -287,15 +287,15 @@ public class DoctorDaoImpl implements DoctorDao {
 				showSpeciality.add(doctor);
 			}
 
-			ps.close();
+			preparedstatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 
 			try {
 				DbConnection.closeConnection();
-				if (ps != null)
-					ps.close();
+				if (preparedstatement != null)
+					preparedstatement.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -312,23 +312,23 @@ public class DoctorDaoImpl implements DoctorDao {
 	public List<Doctor> findBySpecialityAndFees(String speciality, double fees) {
 		List<Doctor> showSpecialityAndFees = new ArrayList<>();
 		Connection connection = DbConnection.openConnection();
-		PreparedStatement ps = null;
+		PreparedStatement preparedstatement = null;
 		Doctor doctor = null;
 		try {
-			ps = connection.prepareStatement(Queries.SPECIALITYANDFEESQUERY);
-			ps.setString(1, speciality);
-			ps.setDouble(2, fees);
-			ps.execute();
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
+			preparedstatement = connection.prepareStatement(Queries.SPECIALITYANDFEESQUERY);
+			preparedstatement.setString(1, speciality);
+			preparedstatement.setDouble(2, fees);
+			preparedstatement.execute();
+			ResultSet result = preparedstatement.executeQuery();
+			while (result.next()) {
 				doctor = new Doctor();
-				String name = rs.getString(1);
-				int id = rs.getInt(2);
-				String special = rs.getString(3);
-				double fee = rs.getDouble(4);
-				int experience = rs.getInt(5);
-				Timestamp startTime = rs.getTimestamp(6);
-				Timestamp endTime = rs.getTimestamp(7);
+				String name = result.getString(1);
+				int id = result.getInt(2);
+				String special = result.getString(3);
+				double fee = result.getDouble(4);
+				int experience = result.getInt(5);
+				Timestamp startTime = result.getTimestamp(6);
+				Timestamp endTime = result.getTimestamp(7);
 				doctor.setDoctName(name);
 				doctor.setDoctotId(id);
 				doctor.setSpeciality(special);
@@ -339,15 +339,15 @@ public class DoctorDaoImpl implements DoctorDao {
 				showSpecialityAndFees.add(doctor);
 			}
 
-			ps.close();
+			preparedstatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 
 			try {
 				DbConnection.closeConnection();
-				if (ps != null)
-					ps.close();
+				if (preparedstatement != null)
+					preparedstatement.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -364,23 +364,23 @@ public class DoctorDaoImpl implements DoctorDao {
 	public List<Doctor> findByAvailailabilty(LocalDateTime startTime) {
 		List<Doctor> showSpecialityAndFees = new ArrayList<>();
 		Connection connection = DbConnection.openConnection();
-		PreparedStatement ps = null;
+		PreparedStatement preparedstatement = null;
 
 		try {
-			ps = connection.prepareStatement(Queries.TIMEBETWEENQUERY);
-			ps.setTimestamp(1, Timestamp.valueOf(startTime));
-			//ps.setTimestamp(2, Timestamp.valueOf(startTime));
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
+			preparedstatement = connection.prepareStatement(Queries.TIMEBETWEENQUERY);
+			preparedstatement.setTimestamp(1, Timestamp.valueOf(startTime));
+			//preparedstatement.setTimestamp(2, Timestamp.valueOf(startTime));
+			ResultSet result = preparedstatement.executeQuery();
+			while (result.next()) {
 				Doctor doctor = new Doctor();
-				String name = rs.getString(1);
-				int id = rs.getInt(2);
-				String special = rs.getString(3);
-				double fee = rs.getDouble(4);
-				int experience = rs.getInt(5);
-				Timestamp startTimeCheck = rs.getTimestamp(6);
+				String name = result.getString(1);
+				int id = result.getInt(2);
+				String special = result.getString(3);
+				double fee = result.getDouble(4);
+				int experience = result.getInt(5);
+				Timestamp startTimeCheck = result.getTimestamp(6);
 				
-				Timestamp endTimeCheck = rs.getTimestamp(7);
+				Timestamp endTimeCheck = result.getTimestamp(7);
 				doctor.setDoctName(name);
 				doctor.setDoctotId(id);
 				doctor.setSpeciality(special);
@@ -391,15 +391,15 @@ public class DoctorDaoImpl implements DoctorDao {
 				showSpecialityAndFees.add(doctor);
 			}
 
-			ps.close();
+			preparedstatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 
 			try {
 				DbConnection.closeConnection();
-				if (ps != null)
-					ps.close();
+				if (preparedstatement != null)
+					preparedstatement.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

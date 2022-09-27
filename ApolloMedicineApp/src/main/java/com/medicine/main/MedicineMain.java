@@ -5,14 +5,14 @@ import java.util.Scanner;
 
 import com.medicine.model.Category;
 import com.medicine.model.Medicine;
-import com.medicine.service.IMedicineService;
-import com.medicine.service.MedicineServiceImpl;
+import com.medicine.service.*;
 import com.medicineapp.exceptions.IdNotFoundException;
 import com.medicineapp.exceptions.MedicineNotFoundException;
 
+
 public class MedicineMain {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) { 
 		//IMedicineDao medicineDao = new MedicineDaoImpl();
 		IMedicineService medicineService = new MedicineServiceImpl();
 		int choice;
@@ -32,8 +32,8 @@ public class MedicineMain {
 						for (int start = 1; start <= end; start++) {
 							Medicine medicine = new Medicine();
 							System.out.println("Enter the Name : ");
-							String name = sc.next();
-							sc.next();
+							String name = sc.nextLine();
+							sc.nextLine();
 							System.out.println("Enter the Medicine ID : ");
 							int id = sc.nextInt();
 							System.out.println(
@@ -78,7 +78,7 @@ public class MedicineMain {
 							}
 						} catch (IdNotFoundException e) {
 							// TODO Auto-generated catch block
-							System.out.println("ID IS NOT FOUND");
+							System.out.println("ID IS NOT FOUND");System.exit(0);
 						}
 						break;
 					case 4:
@@ -98,7 +98,7 @@ public class MedicineMain {
 					break;
 				case 2:
 					System.out.println(
-							"1.Show Name \t 2.Show Category \t 3.Show Name and Category \t 4.Show Category and Brand \t5.Show Category and Cost \t6.Find Available Medicine");
+							"1.Show Name \t 2.Show Category \t 3.Show Name and Category \t 4.Show Category and Brand \t5.Show Category and Cost \t6.Check Available Medicine");
 					int switchToShowOperation = sc.nextInt();
 					switch (switchToShowOperation) {
 					case 1:
@@ -109,7 +109,7 @@ public class MedicineMain {
 							showAllMedicine = medicineService.getByNameContaining(name);
 							showAllMedicine.forEach(System.out::println);
 						} catch (MedicineNotFoundException e) {
-							System.out.println(e.getMessage());
+							System.out.println(e.getMessage());System.exit(0);
 						}
 
 						break;
@@ -127,7 +127,7 @@ public class MedicineMain {
 							showMedicineCategory.forEach(System.out::println);
 						} catch (MedicineNotFoundException e) {
 							// TODO Auto-generated catch block
-							System.out.println("SPECIALITY IS NOT FOUND");
+							System.out.println("SPECIALITY IS NOT FOUND");System.exit(0);
 						}
 
 						break;
@@ -143,7 +143,7 @@ public class MedicineMain {
 							showNameAndCategory = medicineService.getByNameAndCategory(name, specialMedicine);
 							showNameAndCategory.forEach(System.out::println);
 						} catch (MedicineNotFoundException e) {
-							System.out.println(e.getMessage());
+							System.out.println(e.getMessage());System.exit(0);
 						}
 
 						break;
@@ -159,7 +159,7 @@ public class MedicineMain {
 							showCategoryAndBrand = medicineService.getByCategoryAndBrand(showSpecialMedicine, brand);
 							showCategoryAndBrand.forEach(System.out::println);
 						} catch (MedicineNotFoundException e) {
-							System.out.println(e.getMessage());
+							System.out.println(e.getMessage());System.exit(0);
 						}
 
 						break;
@@ -176,7 +176,7 @@ public class MedicineMain {
 							showCategoryAndCost = medicineService.getByCategoryAndLessCost(showSpecialMedicineList, cost);
 							showCategoryAndCost.forEach(System.out::println);
 						} catch (MedicineNotFoundException e) {
-							System.out.println(e.getMessage());
+							System.out.println(e.getMessage());System.exit(0);
 						}
 
 						break;
@@ -194,7 +194,7 @@ public class MedicineMain {
 							}
 						} catch (MedicineNotFoundException e) {
 							// TODO Auto-generated catch block
-							System.out.println("MEDICINE IS NOT AVAILABLE");
+							System.out.println("MEDICINE IS NOT AVAILABLE");System.exit(0);
 						}
 						break;
 
@@ -209,6 +209,7 @@ public class MedicineMain {
 				choice = sc.nextInt();
 				// sc.close();
 			} while (choice==1);
+		
 			//sc.close();
 		}
 

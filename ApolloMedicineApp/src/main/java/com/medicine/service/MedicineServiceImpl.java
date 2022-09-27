@@ -1,6 +1,7 @@
 package com.medicine.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.medicine.dao.IMedicineDao;
 import com.medicine.dao.MedicineDaoImpl;
@@ -24,9 +25,11 @@ public class MedicineServiceImpl implements IMedicineService {
 	@Override
 	public Medicine getById(int medicineId) throws IdNotFoundException {
 		Medicine medicine=medicineDao.findById(medicineId);
+		
 		if(medicine!=null) {
 			return medicine;
 		}
+		
 		else {
 			throw new IdNotFoundException("ID IS NOT FOUND");
 		}
@@ -40,60 +43,65 @@ public class MedicineServiceImpl implements IMedicineService {
 	@Override
 	public List<Medicine> getByNameContaining(String name) throws MedicineNotFoundException {
 		List<Medicine> medicines=medicineDao.findByNameContaining(name);
+		
 		if(medicines.isEmpty()) {
 			throw new MedicineNotFoundException("MEDICINE IS NOT FOUND");
 		}
+		
 		return medicines;
 	}
 
 	@Override
 	public List<Medicine> getByCategory(String category) throws MedicineNotFoundException {
-		List<Medicine> medicinesCategory=medicineDao.findByCategory(category);
-		if(medicinesCategory.isEmpty()) {
+		List<Medicine> medicines=medicineDao.findByCategory(category);
+		
+		if(medicines.isEmpty()) {
 			throw new MedicineNotFoundException("MEDICINE IS NOT FOUND");
 		}
-		return medicinesCategory;
+		
+		return medicines;
 	}
 
 	@Override
 	public List<Medicine> getByNameAndCategory(String name, String category) throws MedicineNotFoundException {
-		List<Medicine> medicinesNameAndCategory=medicineDao.findByNameAndCategory(name, category);
-		if(medicinesNameAndCategory.isEmpty()) {
+		List<Medicine> medicines=medicineDao.findByNameAndCategory(name, category);
+		
+		if(medicines.isEmpty()) {
 			throw new MedicineNotFoundException("MEDICINE IS NOT FOUND");
 		}
-		return medicinesNameAndCategory;
+		
+		return medicines;
 	}
 
 	@Override
 	public List<Medicine> getByCategoryAndBrand(String category, String brand) throws MedicineNotFoundException {
-		List<Medicine> medicinesCategoeyAndBrand=medicineDao.findByCategoryAndBrand(category, brand);
-		if(medicinesCategoeyAndBrand.isEmpty()) {
+		List<Medicine> medicines=medicineDao.findByCategoryAndBrand(category, brand);
+		if(medicines.isEmpty()) {
 			throw new MedicineNotFoundException("MEDICINE IS NOT FOUND");
 		}
-		return medicinesCategoeyAndBrand;
+		
+		return medicines;
 	}
 
 	@Override
 	public List<Medicine> getByCategoryAndLessCost(String category, double cost) throws MedicineNotFoundException {
-		List<Medicine> medicinesCategoryAndCost=medicineDao.findByCategoryAndLessCost(category, cost);
-		if(medicinesCategoryAndCost.isEmpty()) {
+		List<Medicine> medicines=medicineDao.findByCategoryAndLessCost(category, cost);
+		if(medicines.isEmpty()) {
 			throw new MedicineNotFoundException("MEDICINE IS NOT FOUND");
 		}
-		return medicinesCategoryAndCost;
+		
+		return medicines;
 	}
 
 	@Override
 	public boolean getByNameAndAvailabilty(String name,boolean present) throws MedicineNotFoundException{
 		
-		boolean medicinesNameAndAvailability=medicineDao.findByNameAndAvailabilty(name,present);
+		boolean medicines=medicineDao.findByNameAndAvailabilty(name,present);
 		
-		if(!medicinesNameAndAvailability) {
+		if(!medicines) {
 			throw new MedicineNotFoundException("MEDICINE IS NOT FOUND");
 		}
-		return medicinesNameAndAvailability;
+		
+		return medicines;
 	}
-
-
-
-
 }

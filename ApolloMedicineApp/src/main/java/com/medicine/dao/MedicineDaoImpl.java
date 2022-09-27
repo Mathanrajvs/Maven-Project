@@ -16,28 +16,30 @@ public class MedicineDaoImpl implements IMedicineDao {
 	@Override
 	public void addMedicine(Medicine medicine) {
 		Connection connection = DbConnection.openConnection();
-		PreparedStatement ps = null;
+		PreparedStatement preparedstatement = null;
+		int result;
 		try {
 
-			ps = connection.prepareStatement(Queries.INSERTQUERY);
-			ps.setString(1, medicine.getMedicineName());
-			ps.setInt(2, medicine.getMedicineId());
-			ps.setString(3, medicine.getCategory());
-			ps.setString(4, medicine.getBrand());
-			ps.setDouble(5, medicine.getCost());
-			ps.setBoolean(6, medicine.isAvailability());
-			boolean rs = ps.execute();
-			if (!rs) {
-				System.out.println("ADDED SUCCESSFULLY");
-			}
+			preparedstatement = connection.prepareStatement(Queries.INSERTQUERY);
+			preparedstatement.setString(1, medicine.getMedicineName());
+			preparedstatement.setInt(2, medicine.getMedicineId());
+			preparedstatement.setString(3, medicine.getCategory());
+			preparedstatement.setString(4, medicine.getBrand());
+			preparedstatement.setDouble(5, medicine.getCost());
+			preparedstatement.setBoolean(6, medicine.isAvailability());
+			result = preparedstatement.executeUpdate();
+			if(result==1) {
+			System.out.println("ADDED SUCCESSFULLY");}
+			
+			
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		} finally {
 
 			try {
-				if (ps != null)
-					ps.close();
+				if (preparedstatement != null)
+					preparedstatement.close();
 				DbConnection.closeConnection();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -51,14 +53,14 @@ public class MedicineDaoImpl implements IMedicineDao {
 	@Override
 	public void updateMedicine(int medicineId, double fees) {
 		Connection connection = DbConnection.openConnection();
-		PreparedStatement ps = null;
+		PreparedStatement preparedstatement = null;
 		try {
 
-			ps = connection.prepareStatement(Queries.UPDATEQUERY);
-			ps.setDouble(1, fees);
-			ps.setInt(2, medicineId);
-			boolean rs = ps.execute();
-			if (!rs) {
+			preparedstatement = connection.prepareStatement(Queries.UPDATEQUERY);
+			preparedstatement.setDouble(1, fees);
+			preparedstatement.setInt(2, medicineId);
+			int result = preparedstatement.executeUpdate();
+			if (result==1) {
 				System.out.println("UPDATED SUCCESSFULLY");
 			} else {
 				System.out.println("NOT UPDATED.....");
@@ -69,8 +71,8 @@ public class MedicineDaoImpl implements IMedicineDao {
 		} finally {
 
 			try {
-				if (ps != null)
-					ps.close();
+				if (preparedstatement != null)
+					preparedstatement.close();
 				DbConnection.closeConnection();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -84,23 +86,23 @@ public class MedicineDaoImpl implements IMedicineDao {
 	@Override
 	public Medicine findById(int medicineId) {
 		Connection connection = DbConnection.openConnection();
-		PreparedStatement ps = null;
+		PreparedStatement preparedstatement = null;
 		Medicine medicine=null;
 		try {
 
-			ps = connection.prepareStatement(Queries.FINDQUERY);
-			ps.setInt(1, medicineId);
-			boolean rs = ps.execute();
-			if (rs) {
-				ResultSet result = ps.executeQuery();
-				while (result.next()) {
+			preparedstatement = connection.prepareStatement(Queries.FINDQUERY);
+			preparedstatement.setInt(1, medicineId);
+			int result = preparedstatement.executeUpdate();
+			if (result==1) {
+				ResultSet resultset = preparedstatement.executeQuery();
+				while (resultset.next()) {
 					medicine=new Medicine();
-					String name = result.getString(1);
-					int Id = result.getInt(2);
-					String category = result.getString(3);
-					String brand = result.getString(4);
-					double cost = result.getDouble(5);
-					boolean available = result.getBoolean(6);
+					String name = resultset.getString(1);
+					int Id = resultset.getInt(2);
+					String category = resultset.getString(3);
+					String brand = resultset.getString(4);
+					double cost = resultset.getDouble(5);
+					boolean available = resultset.getBoolean(6);
 
 					medicine.setMedicineName(name);
 					medicine.setMedicineId(Id);
@@ -118,8 +120,8 @@ public class MedicineDaoImpl implements IMedicineDao {
 		} finally {
 
 			try {
-				if (ps != null)
-					ps.close();
+				if (preparedstatement != null)
+					preparedstatement.close();
 				DbConnection.closeConnection();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -133,13 +135,13 @@ public class MedicineDaoImpl implements IMedicineDao {
 	@Override
 	public void deleteMedicine(int medicineId) {
 		Connection connection = DbConnection.openConnection();
-		PreparedStatement ps = null;
+		PreparedStatement preparedstatement = null;
 		try {
 
-			ps = connection.prepareStatement(Queries.DELETEQUERY);
-			ps.setInt(1, medicineId);
-			boolean rs = ps.execute();
-			if (!rs) {
+			preparedstatement = connection.prepareStatement(Queries.DELETEQUERY);
+			preparedstatement.setInt(1, medicineId);
+			int result = preparedstatement.executeUpdate();
+			if (result==1) {
 				System.out.println("DELETED SUCESSFULLY");
 
 			}else {
@@ -151,8 +153,8 @@ public class MedicineDaoImpl implements IMedicineDao {
 		} finally {
 
 			try {
-				if (ps != null)
-					ps.close();
+				if (preparedstatement != null)
+					preparedstatement.close();
 				DbConnection.closeConnection();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -166,14 +168,15 @@ public class MedicineDaoImpl implements IMedicineDao {
 	@Override
 	public List<Medicine> findByCategory(String category) {
 		Connection connection=DbConnection.openConnection();
-		PreparedStatement ps=null;
+		PreparedStatement preparedstatement=null;
 		List<Medicine> medicineCategory=null;
+		ResultSet result=null;
 		try{
 			
-			ps=connection.prepareStatement(Queries.QUERYBYCATEGORY);
-			ps.setString(1,category);
+			preparedstatement=connection.prepareStatement(Queries.QUERYBYCATEGORY);
+			preparedstatement.setString(1,category);
 
-				ResultSet result=ps.executeQuery();
+				result=preparedstatement.executeQuery();
 				medicineCategory=new ArrayList<>();
 				while(result.next()) {
 					Medicine medicine=new Medicine();
@@ -204,8 +207,10 @@ public class MedicineDaoImpl implements IMedicineDao {
 		finally {
 			
 				try {
-					if(ps!=null)
-					ps.close();
+					if(result!=null)
+						result.close();
+					if(preparedstatement!=null)
+					preparedstatement.close();
 					DbConnection.closeConnection();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
@@ -219,15 +224,16 @@ public class MedicineDaoImpl implements IMedicineDao {
 	@Override
 	public List<Medicine> findByCategoryAndBrand(String category, String brand) {
 		Connection connection=DbConnection.openConnection();
-		PreparedStatement ps=null;
+		PreparedStatement preparedstatement=null;
 		List<Medicine> medicineCategoryAndBrand=null;
+		ResultSet result=null;
 		try{
 			
-			ps=connection.prepareStatement(Queries.QUERYBYCATEGORYANDBRAND);
-			ps.setString(1,category);
-			ps.setString(2, brand);
+			preparedstatement=connection.prepareStatement(Queries.QUERYBYCATEGORYANDBRAND);
+			preparedstatement.setString(1,category);
+			preparedstatement.setString(2, brand);
 
-				ResultSet result=ps.executeQuery();
+				result=preparedstatement.executeQuery();
 				medicineCategoryAndBrand=new ArrayList<>();
 				while(result.next()) {
 					Medicine medicine=new Medicine();
@@ -258,8 +264,10 @@ public class MedicineDaoImpl implements IMedicineDao {
 		finally {
 			
 				try {
-					if(ps!=null)
-					ps.close();
+					if(result!=null)
+						result.close();
+					if(preparedstatement!=null)
+					preparedstatement.close();
 					DbConnection.closeConnection();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
@@ -273,14 +281,15 @@ public class MedicineDaoImpl implements IMedicineDao {
 	@Override
 	public List<Medicine> findByNameContaining(String name) {
 		Connection connection=DbConnection.openConnection();
-		PreparedStatement ps=null;
+		PreparedStatement preparedstatement=null;
 		List<Medicine> medicineName=new ArrayList<>();
+		ResultSet result=null;
 		try{
 			
-			ps=connection.prepareStatement(Queries.QUERYBYNAMECONTAINING);
-			ps.setString(1,name.toUpperCase()+"%");
+			preparedstatement=connection.prepareStatement(Queries.QUERYBYNAMECONTAINING);
+			preparedstatement.setString(1,name.toUpperCase()+"%");
 
-				ResultSet result=ps.executeQuery();
+				result=preparedstatement.executeQuery();
 				
 				while(result.next()) {
 					Medicine medicine=new Medicine();
@@ -311,8 +320,10 @@ public class MedicineDaoImpl implements IMedicineDao {
 		finally {
 			
 				try {
-					if(ps!=null)
-					ps.close();
+					if(result!=null)
+						result.close();
+					if(preparedstatement!=null)
+					preparedstatement.close();
 					DbConnection.closeConnection();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
@@ -326,15 +337,16 @@ public class MedicineDaoImpl implements IMedicineDao {
 	@Override
 	public List<Medicine> findByNameAndCategory(String name, String category) {
 		Connection connection=DbConnection.openConnection();
-		PreparedStatement ps=null;
+		PreparedStatement preparedstatement=null;
 		List<Medicine> medicineNameAndCategory=new ArrayList<>();
+		ResultSet result=null;
 		try{
 			
-			ps=connection.prepareStatement(Queries.QUERYBYNAMEANDCATEGORY);
-			ps.setString(1,name.toUpperCase()+"%");
-			ps.setString(2, category);
+			preparedstatement=connection.prepareStatement(Queries.QUERYBYNAMEANDCATEGORY);
+			preparedstatement.setString(1,name.toUpperCase()+"%");
+			preparedstatement.setString(2, category);
 
-				ResultSet result=ps.executeQuery();
+				result=preparedstatement.executeQuery();
 				
 				while(result.next()) {
 					Medicine medicine=new Medicine();
@@ -365,8 +377,10 @@ public class MedicineDaoImpl implements IMedicineDao {
 		finally {
 			
 				try {
-					if(ps!=null)
-					ps.close();
+					if(result!=null)
+						result.close();
+					if(preparedstatement!=null)
+					preparedstatement.close();
 					DbConnection.closeConnection();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
@@ -380,15 +394,16 @@ public class MedicineDaoImpl implements IMedicineDao {
 	@Override
 	public List<Medicine> findByCategoryAndLessCost(String category, double cost) {
 		Connection connection=DbConnection.openConnection();
-		PreparedStatement ps=null;
+		PreparedStatement preparedstatement=null;
 		List<Medicine> medicineCategoryAndCost=new ArrayList<>();
+		ResultSet result=null;
 		try{
 			
-			ps=connection.prepareStatement(Queries.QUERYFORCATEORYANDCOST);
-			ps.setString(1,category);
-			ps.setDouble(2, cost);
+			preparedstatement=connection.prepareStatement(Queries.QUERYFORCATEORYANDCOST);
+			preparedstatement.setString(1,category);
+			preparedstatement.setDouble(2, cost);
 
-				ResultSet result=ps.executeQuery();
+				result=preparedstatement.executeQuery();
 				
 				while(result.next()) {
 					Medicine medicine=new Medicine();
@@ -419,8 +434,10 @@ public class MedicineDaoImpl implements IMedicineDao {
 		finally {
 			
 				try {
-					if(ps!=null)
-					ps.close();
+					if(result!=null)
+						result.close();
+					if(preparedstatement!=null)
+					preparedstatement.close();
 					DbConnection.closeConnection();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
@@ -434,20 +451,19 @@ public class MedicineDaoImpl implements IMedicineDao {
 	@Override
 	public boolean findByNameAndAvailabilty(String name,boolean present) {
 		Connection connection=DbConnection.openConnection();
-		PreparedStatement ps=null;
+		PreparedStatement preparedstatement=null;
 		List<Medicine> medicineAvailability=null;
 		boolean flag=present;
+		ResultSet result=null;
 		try{
 			
-			ps=connection.prepareStatement(Queries.QUERYBYNAMEANDAVAILABILITY);
-			ps.setString(1,name+"%");
-			ps.setBoolean(2, present);
-			boolean rs=ps.execute();
-			if(rs) {
-				//flag=true;
+			preparedstatement=connection.prepareStatement(Queries.QUERYBYNAMEANDAVAILABILITY);
+			preparedstatement.setString(1,name+"%");
+			preparedstatement.setBoolean(2, present);
+			
 			
 
-				ResultSet result=ps.executeQuery();
+				result=preparedstatement.executeQuery();
 				medicineAvailability=new ArrayList<>();
 				while(result.next()) {
 					Medicine medicine=new Medicine();
@@ -465,7 +481,7 @@ public class MedicineDaoImpl implements IMedicineDao {
 					medicine.setCost(costOfTheMedicine);
 					medicine.setAvailability(availableMedicine);
 					medicineAvailability.add(medicine);
-				}}
+				}
 				if(!medicineAvailability.isEmpty())
 				System.out.println(medicineAvailability);
 				
@@ -478,8 +494,10 @@ public class MedicineDaoImpl implements IMedicineDao {
 		finally {
 			
 				try {
-					if(ps!=null)
-					ps.close();
+					if(result!=null)
+						result.close();
+					if(preparedstatement!=null)
+					preparedstatement.close();
 					DbConnection.closeConnection();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
