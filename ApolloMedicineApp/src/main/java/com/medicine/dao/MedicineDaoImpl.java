@@ -6,13 +6,29 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import com.medicine.model.Medicine;
 import com.medicine.util.DbConnection;
 import com.medicine.util.Queries;
 
-public class MedicineDaoImpl implements IMedicineDao {
+/**
+ *Perform operations in DAO layer
+ * @implSpec IMedicineDao the interface
+ * @author MathanRajS
+ *@version 18.x
+ */
 
+public class MedicineDaoImpl implements IMedicineDao {
+	
+	
+	/**
+	 *To add medicine in the database
+	 *@param medicine the medicine object class of Medicine
+	 *@return void returns nothing
+	 *@author MathanRajS
+	 *
+	 */
 	@Override
 	public void addMedicine(Medicine medicine) {
 		Connection connection = DbConnection.openConnection();
@@ -50,6 +66,14 @@ public class MedicineDaoImpl implements IMedicineDao {
 
 	}
 
+	/**
+	 *To Update medicine in the database
+	 *@param medicineId the medicine id
+	 *@param fees the cost of a medicine
+	 *@return void return nothing
+	 *@author MathanRajS
+	 *
+	 */
 	@Override
 	public void updateMedicine(int medicineId, double fees) {
 		Connection connection = DbConnection.openConnection();
@@ -82,7 +106,13 @@ public class MedicineDaoImpl implements IMedicineDao {
 		}
 
 	}
-
+	/**
+	 *To Find the specific medicine in the database if it is present or not
+	 *@param medicineId the medicine id
+	 *@return Medicine return medicine object
+	 *@author MathanRajS
+	 *
+	 */
 	@Override
 	public Medicine findById(int medicineId) {
 		Connection connection = DbConnection.openConnection();
@@ -131,6 +161,12 @@ public class MedicineDaoImpl implements IMedicineDao {
 		}
 		return medicine;
 	}
+	/**
+	 *To Delete the specific medicine in the database
+	 * @param medicineId the medicine id
+	 * @return void returns nothing
+	 * @author MathanRajS
+	 */
 
 	@Override
 	public void deleteMedicine(int medicineId) {
@@ -164,12 +200,17 @@ public class MedicineDaoImpl implements IMedicineDao {
 		}
 
 	}
-
+	/**
+	 *Show all medicines with specific category
+	 *@param category the category of the medicine
+	 *@return List<Medicine> to list the medicines
+	 *@author MathanRajS
+	 */
 	@Override
 	public List<Medicine> findByCategory(String category) {
 		Connection connection=DbConnection.openConnection();
 		PreparedStatement preparedstatement=null;
-		List<Medicine> medicineCategory=null;
+		List<Medicine> medicineList=null;
 		ResultSet result=null;
 		try{
 			
@@ -177,7 +218,8 @@ public class MedicineDaoImpl implements IMedicineDao {
 			preparedstatement.setString(1,category);
 
 				result=preparedstatement.executeQuery();
-				medicineCategory=new ArrayList<>();
+				
+				medicineList=new ArrayList<>();
 				while(result.next()) {
 					Medicine medicine=new Medicine();
 					String name=result.getString(1);
@@ -193,7 +235,7 @@ public class MedicineDaoImpl implements IMedicineDao {
 					medicine.setBrand(brand);
 					medicine.setCost(cost);
 					medicine.setAvailability(available);
-					medicineCategory.add(medicine);
+					medicineList.add(medicine);
 				}
 					
 				
@@ -218,14 +260,20 @@ public class MedicineDaoImpl implements IMedicineDao {
 				}
 			
 		}
-		return medicineCategory;
+		return medicineList;
 	}
-
+	/**
+	 *Show medicines with specific category and specific brand
+	 *@param brand the brand of the medicine
+	 *@param category the category of the medicine
+	 *@return List<Medicine> to list the medicines
+	 *@author MathanRajS
+	 */
 	@Override
 	public List<Medicine> findByCategoryAndBrand(String category, String brand) {
 		Connection connection=DbConnection.openConnection();
 		PreparedStatement preparedstatement=null;
-		List<Medicine> medicineCategoryAndBrand=null;
+		List<Medicine> medicineList=null;
 		ResultSet result=null;
 		try{
 			
@@ -234,7 +282,7 @@ public class MedicineDaoImpl implements IMedicineDao {
 			preparedstatement.setString(2, brand);
 
 				result=preparedstatement.executeQuery();
-				medicineCategoryAndBrand=new ArrayList<>();
+				medicineList=new ArrayList<>();
 				while(result.next()) {
 					Medicine medicine=new Medicine();
 					String name=result.getString(1);
@@ -250,7 +298,7 @@ public class MedicineDaoImpl implements IMedicineDao {
 					medicine.setBrand(brandOfCompany);
 					medicine.setCost(cost);
 					medicine.setAvailability(available);
-					medicineCategoryAndBrand.add(medicine);
+					medicineList.add(medicine);
 				}
 					
 				
@@ -275,14 +323,19 @@ public class MedicineDaoImpl implements IMedicineDao {
 				}
 			
 		}
-		return medicineCategoryAndBrand;
+		return medicineList;
 	}
-
+	/**
+	 *Show all medicines that starts with name containing
+	 *@param name the name of the medicine
+	 *@return List<Medicine> to list the medicines
+	 *@author MathanRajS
+	 */
 	@Override
 	public List<Medicine> findByNameContaining(String name) {
 		Connection connection=DbConnection.openConnection();
 		PreparedStatement preparedstatement=null;
-		List<Medicine> medicineName=new ArrayList<>();
+		List<Medicine> medicineList=new ArrayList<>();
 		ResultSet result=null;
 		try{
 			
@@ -306,7 +359,7 @@ public class MedicineDaoImpl implements IMedicineDao {
 					medicine.setBrand(brand);
 					medicine.setCost(cost);
 					medicine.setAvailability(available);
-					medicineName.add(medicine);
+					medicineList.add(medicine);
 				}
 					
 				
@@ -331,14 +384,20 @@ public class MedicineDaoImpl implements IMedicineDao {
 				}
 			
 		}
-		return medicineName;
+		return medicineList;
 	}
-
+	/**
+	 *Show medicines with specific category and specific name
+	 *@param name the name of the medicine
+	 *@param category the category of the medicine
+	 *@return List<Medicine> to list the medicines
+	 *@author MathanRajS
+	 */
 	@Override
 	public List<Medicine> findByNameAndCategory(String name, String category) {
 		Connection connection=DbConnection.openConnection();
 		PreparedStatement preparedstatement=null;
-		List<Medicine> medicineNameAndCategory=new ArrayList<>();
+		List<Medicine> medicineList=new ArrayList<>();
 		ResultSet result=null;
 		try{
 			
@@ -363,7 +422,7 @@ public class MedicineDaoImpl implements IMedicineDao {
 					medicine.setBrand(brand);
 					medicine.setCost(cost);
 					medicine.setAvailability(available);
-					medicineNameAndCategory.add(medicine);
+					medicineList.add(medicine);
 				}
 					
 				
@@ -388,14 +447,20 @@ public class MedicineDaoImpl implements IMedicineDao {
 				}
 			
 		}
-		return medicineNameAndCategory;
+		return medicineList;
 	}
-
+	/**
+	 *Show medicines with specific category and specific cost
+	 *@param cost the cost of the medicine
+	 *@param category the category of the medicine
+	 *@return List<Medicine> to list the medicines
+	 *@author MathanRajS
+	 */
 	@Override
 	public List<Medicine> findByCategoryAndLessCost(String category, double cost) {
 		Connection connection=DbConnection.openConnection();
 		PreparedStatement preparedstatement=null;
-		List<Medicine> medicineCategoryAndCost=new ArrayList<>();
+		List<Medicine> medicineList=new ArrayList<>();
 		ResultSet result=null;
 		try{
 			
@@ -420,7 +485,7 @@ public class MedicineDaoImpl implements IMedicineDao {
 					medicine.setBrand(brand);
 					medicine.setCost(costOfTheMedicine);
 					medicine.setAvailability(available);
-					medicineCategoryAndCost.add(medicine);
+					medicineList.add(medicine);
 				}
 					
 				
@@ -445,14 +510,21 @@ public class MedicineDaoImpl implements IMedicineDao {
 				}
 			
 		}
-		return medicineCategoryAndCost;
+		return medicineList;
 	}
-
+	/**
+	 *Show medicines with specific name and check if it is present or not
+	 *@param name the name of the medicine
+	 *@param present to check the medicine is available
+	 *@return List<Medicine> to list the medicines
+	 *@author MathanRajS
+	 */
 	@Override
 	public boolean findByNameAndAvailabilty(String name,boolean present) {
 		Connection connection=DbConnection.openConnection();
 		PreparedStatement preparedstatement=null;
-		List<Medicine> medicineAvailability=null;
+		List<Medicine> medicineList=null;
+		
 		boolean flag=present;
 		ResultSet result=null;
 		try{
@@ -464,7 +536,7 @@ public class MedicineDaoImpl implements IMedicineDao {
 			
 
 				result=preparedstatement.executeQuery();
-				medicineAvailability=new ArrayList<>();
+				medicineList=new ArrayList<>();
 				while(result.next()) {
 					Medicine medicine=new Medicine();
 					String medicineName=result.getString(1);
@@ -480,10 +552,10 @@ public class MedicineDaoImpl implements IMedicineDao {
 					medicine.setBrand(brand);
 					medicine.setCost(costOfTheMedicine);
 					medicine.setAvailability(availableMedicine);
-					medicineAvailability.add(medicine);
+					medicineList.add(medicine);
 				}
-				if(!medicineAvailability.isEmpty())
-				System.out.println(medicineAvailability);
+				if(!medicineList.isEmpty())
+				System.out.println(medicineList);
 				
 			
 			
@@ -507,6 +579,80 @@ public class MedicineDaoImpl implements IMedicineDao {
 		}
 		return flag;
 		
+	}
+	/**
+	 *Show medicines with specific name or medicine id and add it to cart
+	 *@param name the name of the medicine
+	 *@return List<Medicine> to list the medicines
+	 *@author MathanRajS
+	 */
+	@Override
+	public List<Medicine> findCart(String name) {
+		Connection connection=DbConnection.openConnection();
+		PreparedStatement preparedstatement=null;
+		List<Medicine> medicineList=new ArrayList<>();
+//		List<Medicine> cartList=new ArrayList<>();
+//		Scanner sc=new Scanner(System.in);
+//		int cartContinue;
+		ResultSet result=null;
+		try{
+			
+
+				
+				preparedstatement=connection.prepareStatement(Queries.QUERYBYCART);
+				preparedstatement.setString(1,name+"%");
+				boolean check=preparedstatement.execute();
+				if(!check) {
+					System.out.println("ADDED TO CART");
+				}else {
+					System.out.println("ITEM NOT IN THE LIST");
+					System.exit(0);
+				}
+				preparedstatement.close();
+				preparedstatement=connection.prepareStatement(Queries.QUERYFORSELECTCART);
+				result=preparedstatement.executeQuery();
+					
+					while(result.next()) {
+						Medicine medicine=new Medicine();
+						String medicineName=result.getString(1);
+						int Id=result.getInt(2);
+						String categoryType=result.getString(3);
+						String brand=result.getString(4);
+						double costOfTheMedicine=result.getDouble(5);
+						boolean availableMedicine=result.getBoolean(6);
+						
+						medicine.setMedicineName(medicineName);
+						medicine.setMedicineId(Id);
+						medicine.setCategory(categoryType);
+						medicine.setBrand(brand);
+						medicine.setCost(costOfTheMedicine);
+						medicine.setAvailability(availableMedicine);
+						medicineList.add(medicine);
+					}
+					
+				
+			
+			
+			
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		finally {
+			
+				try {
+					//sc.close();
+					if(result!=null)
+						result.close();
+					if(preparedstatement!=null)
+					preparedstatement.close();
+					DbConnection.closeConnection();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+		}
+		return medicineList;
 	}
 
 }
