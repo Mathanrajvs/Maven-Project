@@ -11,6 +11,8 @@ import java.util.Scanner;
 import com.medicine.model.Cart;
 import com.medicine.model.Medicine;
 import com.medicine.util.DbConnection;
+import com.medicine.util.IRowMapper;
+import com.medicine.util.MedicineMapper;
 import com.medicine.util.Queries;
 
 /**
@@ -583,8 +585,8 @@ public class MedicineDaoImpl implements IMedicineDao {
 	}
 	/**
 	 *Show medicines with specific name or medicine id and add it to cart
-	 *@param name the name of the medicine
-	 *@return List<Medicine> to list the medicines
+	 *@param id the id of the medicine
+	 *@return List<Cart> to list the medicines
 	 *@author MathanRajS
 	 */
 	@Override
@@ -596,6 +598,7 @@ public class MedicineDaoImpl implements IMedicineDao {
 //		Scanner sc=new Scanner(System.in);
 //		int cartContinue;
 		ResultSet result=null;
+		IRowMapper rowMapper=new MedicineMapper();
 		try{
 			
 
@@ -612,22 +615,15 @@ public class MedicineDaoImpl implements IMedicineDao {
 				preparedstatement.close();
 				preparedstatement=connection.prepareStatement(Queries.QUERYFORSELECTCART);
 				result=preparedstatement.executeQuery();
-					
+//					cartList=rowMapper.mapMedicine(result);
 					while(result.next()) {
 						Cart cart=new Cart();
 						String medicineName=result.getString(1);
 						int Id=result.getInt(2);
-//						String categoryType=result.getString(3);
-//						String brand=result.getString(4);
 						double cost=result.getDouble(3);
-//						boolean availableMedicine=result.getBoolean(6);
-						
 						cart.setMedicineName(medicineName);
 						cart.setMedicineId(Id);
-//						medicine.setCategory(categoryType);
-//						medicine.setBrand(brand);
 						cart.setCost(cost);
-//						medicine.setAvailability(availableMedicine);
 						cartList.add(cart);
 					}
 					

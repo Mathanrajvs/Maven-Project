@@ -4,10 +4,10 @@ import java.util.List;
 
 import com.medicine.dao.IMedicineDao;
 import com.medicine.dao.MedicineDaoImpl;
+import com.medicine.exceptions.IdNotFoundException;
+import com.medicine.exceptions.MedicineNotFoundException;
 import com.medicine.model.Cart;
 import com.medicine.model.Medicine;
-import com.medicineapp.exceptions.IdNotFoundException;
-import com.medicineapp.exceptions.MedicineNotFoundException;
 /**
  *Perform operations in Service layer
  * @implSpec IMedicineService the interface
@@ -176,7 +176,7 @@ public class MedicineServiceImpl implements IMedicineService {
 	/**
 	 *Transfer data to DAO layer to Show medicines with specific name or medicine id and store it in cart
 	 *@throws MedicineNotFoundException to throw the exception
-	 *@return List<Medicine> to list the medicines
+	 *@return List<Cart> to list the medicines
 	 *@author MathanRajS
 	 */
 	@Override

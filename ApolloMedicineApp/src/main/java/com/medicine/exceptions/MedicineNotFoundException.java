@@ -1,4 +1,4 @@
-package com.medicineapp.exceptions;
+package com.medicine.exceptions;
 
 public class MedicineNotFoundException extends Exception {
 

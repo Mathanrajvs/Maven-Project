@@ -5,13 +5,13 @@ import java.util.Scanner;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
+import com.medicine.exceptions.IdNotFoundException;
+import com.medicine.exceptions.MedicineNotFoundException;
 import com.medicine.model.Cart;
 import com.medicine.model.Category;
 import com.medicine.model.Medicine;
 import com.medicine.model.User;
 import com.medicine.service.*;
-import com.medicineapp.exceptions.IdNotFoundException;
-import com.medicineapp.exceptions.MedicineNotFoundException;
 
 public class MedicineMain {
 

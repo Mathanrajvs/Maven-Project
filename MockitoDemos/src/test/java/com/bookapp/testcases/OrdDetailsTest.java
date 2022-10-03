@@ -2,6 +2,8 @@ package com.bookapp.testcases;
 
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -26,13 +29,13 @@ import com.bookapp.model.Book;
 import com.bookapp.service.IBookService;
 @RunWith(JUnitPlatform.class)
 @ExtendWith(MockitoExtension.class)
-class OrderDetailsTest {
+class OrdDetailsTest {
 
 	@Mock
 	IBookService bookservice;
+	@InjectMocks
 	OrderDetails details;
-	Book book1,book2,book3,book4;
-	List<Book> bookList=null;
+	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 	}
@@ -40,10 +43,12 @@ class OrderDetailsTest {
 	@AfterAll
 	static void tearDownAfterClass() throws Exception {
 	}
-
+	Book book1,book2,book3,book4;
+	List<Book> bookList=null;
 	@BeforeEach
 	void setUp() throws Exception {
-		details=new OrderDetails();
+		//this
+		//details=new OrderDetails();
 		details.setBookservice(bookservice);
 		book1=new Book("Java",1,"Kathy",96);
 		book2=new Book("My Sql",2,"Kathy",90);
@@ -57,40 +62,30 @@ class OrderDetailsTest {
 	void tearDown() throws Exception {
 		details=null;
 	}
-
 	@Test
-	@DisplayName("Test by author -List")
-	void testGetByAuthor() {
-		String author="Kathy";
-		//List<Book> booksProxy=Arrays.asList(book1,book2);
-		when(bookservice.getAll()).thenReturn(bookList);
-		
-		//original testing starts here
-		List<Book> books=details.findByAuthor(author);
-		
-		//filter by author,sort by title
-		List<Book> expected=Arrays.asList(book1,book2);
-		assertEquals(expected,books);
-		
+	@DisplayName("By Author-List")
+	public void testGetByAuthor() {
+		String name="Kathy";
+		List<Book> expectedbooks=Arrays.asList(book1,book2);
+		doReturn(expectedbooks).when(bookservice).getAll();
+		List<Book> actualBooks=details.findByAuthor(name);
+		assertEquals(expectedbooks,actualBooks);
 	}
-//	@Test
-//	void testGetByAuthorSorted() {
-//		String author="Johny";
-//		List<Book> booksProxy=Arrays.asList(book3,book4);
-//		when(bookservice.getByAuthor(author)).thenReturn(booksProxy);
-//		
-//		//original testing starts here
-//		List<Book> books=details.findByAuthor(author);
-//		System.out.println(books);
-//		assertEquals(Arrays.asList(book4,book3),books);
-//		
-//	}
+	@Test
+	@DisplayName("By Author -exception")
+	public void testGetByNull() {
+		String name="Kathy";
+		
+		doThrow(BookNotFoundException.class).when(bookservice).getAll();
+		
+		assertThrows(BookNotFoundException.class,()->details.findByAuthor(name));
+	}
 	@Test
 	@DisplayName("Test by author -empty")
 	void testGetByAuthorEmpty() {
 		String author="Johny";
 		//List<Book> booksProxy=Arrays.asList(book3,book4);
-		when(bookservice.getAll()).thenReturn(new ArrayList<>());
+		doReturn(new ArrayList<>()).when(bookservice).getAll();
 		
 		
 		assertThrows(BookNotFoundException.class,()->details.findByAuthor(author));
@@ -103,19 +98,7 @@ class OrderDetailsTest {
 	void testGetByAuthorNull() {
 		String author="Kathy";
 		//List<Book> booksProxy=Arrays.asList(book3,book4);
-		when(bookservice.getAll()).thenReturn(null);
-		
-		assertThrows(BookNotFoundException.class,()->details.findByAuthor(author));
-		//original testing starts here
-		
-		
-	}
-	@Test
-	@DisplayName("Test by author -exception")
-	void testGetByAuthorException() {
-		String author="Kathy";
-		//List<Book> booksProxy=Arrays.asList(book3,book4);
-		when(bookservice.getAll()).thenThrow(BookNotFoundException.class);
+		doReturn(null).when(bookservice).getAll();
 		
 		assertThrows(BookNotFoundException.class,()->details.findByAuthor(author));
 		//original testing starts here
@@ -127,7 +110,7 @@ class OrderDetailsTest {
 	void testOrderBook() {
 		//String author="Kathy";
 		//List<Book> booksProxy=Arrays.asList(book3,book4);
-		when(bookservice.getById(1)).thenReturn(book1);
+		doReturn(book1).when(bookservice).getById(1);
 		
 		//assertThrows(BookNotFoundException.class,()->details.findByAuthor(author));
 		//original testing starts here
@@ -142,7 +125,7 @@ class OrderDetailsTest {
 		int bookId=1;
 		//String author="Kathy";
 		//List<Book> booksProxy=Arrays.asList(book3,book4);
-		when(bookservice.getById(bookId)).thenReturn(null);
+		doReturn(null).when(bookservice).getById(bookId);
 		
 		//-->assertThrows(BookNotFoundException.class,()->details.orderBook(bookId));
 		//original testing starts here
@@ -155,7 +138,7 @@ class OrderDetailsTest {
 	@DisplayName("Test Order book -Exceptions")
 	void testOrderBookExceptions() throws BookNotFoundException{
 		int bookId=1;
-		when(bookservice.getById(bookId)).thenThrow(BookNotFoundException.class);
+		doThrow(BookNotFoundException.class).when(bookservice).getById(bookId);
 		
 		String actual=details.orderBook(bookId);
 		

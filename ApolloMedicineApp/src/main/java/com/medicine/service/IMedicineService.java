@@ -2,10 +2,10 @@ package com.medicine.service;
 
 import java.util.List;
 
+import com.medicine.exceptions.IdNotFoundException;
+import com.medicine.exceptions.MedicineNotFoundException;
 import com.medicine.model.Cart;
 import com.medicine.model.Medicine;
-import com.medicineapp.exceptions.IdNotFoundException;
-import com.medicineapp.exceptions.MedicineNotFoundException;
 /**
  * Perform Operations between DAO layer and Main layer
  *
@@ -76,7 +76,7 @@ public interface IMedicineService {
 	boolean getByNameAndAvailabilty(String name,boolean present)throws MedicineNotFoundException;
 	/**
 	 *Transfer data to DAO layer to Show medicines with specific name or medicine id and store it in cart
-	 *@param name the name of the medicine
+	 *@param id the id of the medicine
 	 *@throws MedicineNotFoundException to throw the exception
 	 */
 	List<Cart> getCart(int id) throws MedicineNotFoundException;

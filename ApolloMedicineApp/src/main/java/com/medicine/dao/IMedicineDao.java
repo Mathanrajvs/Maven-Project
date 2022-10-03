@@ -63,7 +63,7 @@ public interface IMedicineDao {
 	boolean findByNameAndAvailabilty(String name,boolean present);
 	/**
 	 *Show medicines with specific name or medicine id and add it to cart
-	 *@param name the name of the medicine
+	 *@param id the id of the medicine
 	 */
 	List<Cart> findCart(int id);
 	

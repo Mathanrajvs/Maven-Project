@@ -28,11 +28,17 @@ public String addBook(Book book) {
 //List<Book> getByLessPrice(double price){
 //	
 //}
-public String orderBook(int bookId) {
-	Book book=bookservice.getById(bookId);
-	if(book==null)
-		throw new BookNotFoundException();
+public String orderBook(int bookId){
+	Book book;
+	try{
+		book=bookservice.getById(bookId);
 	
+	if(book==null)
+		return "book not ordered";
+	
+	}catch(BookNotFoundException e) {
+		return "book not ordered";
+	}
 	
 	return "Ordered";
 }

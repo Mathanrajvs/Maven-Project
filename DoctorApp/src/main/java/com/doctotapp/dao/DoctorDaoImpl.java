@@ -14,8 +14,15 @@ import com.doctotapp.model.Doctor;
 import com.doctotapp.util.DbConnection;
 import com.doctotapp.util.Queries;
 
+/**
+ * @author MathanRajS
+ *
+ */
 public class DoctorDaoImpl implements DoctorDao {
 
+	/**
+	 * @param doctor
+	 */
 	@Override
 	public void addDoctor(Doctor doctor) {
 
@@ -49,6 +56,10 @@ public class DoctorDaoImpl implements DoctorDao {
 
 	}
 
+	/**
+	 * @param doctorId
+	 * @param fees
+	 */
 	@Override
 	public void updateDoctor(int doctorId, double fees) {
 		Connection connection = DbConnection.openConnection();
@@ -78,6 +89,10 @@ public class DoctorDaoImpl implements DoctorDao {
 
 	}
 
+	/**
+	 * @param doctorId
+	 * @return
+	 */
 	@Override
 	public Doctor findById(int doctorId) {
 		Connection connection = DbConnection.openConnection();
@@ -124,6 +139,9 @@ public class DoctorDaoImpl implements DoctorDao {
 		return doctor;
 	}
 
+	/**
+	 * @param doctorId
+	 */
 	@Override
 	public void deleteDoctor(int doctorId) {
 		Connection connection = DbConnection.openConnection();
@@ -152,6 +170,9 @@ public class DoctorDaoImpl implements DoctorDao {
 
 	}
 
+	/**
+	 * @return
+	 */
 	@Override
 	public List<Doctor> findAllDoctors() {
 		List<Doctor> showAllDoctor = new ArrayList<>();
@@ -200,6 +221,10 @@ public class DoctorDaoImpl implements DoctorDao {
 		return showAllDoctor;
 	}
 
+	/**
+	 * @param speciality
+	 * @return
+	 */
 	@Override
 	public List<Doctor> findBySpeciality(String speciality) {
 		List<Doctor> showSpeciality = new ArrayList<>();
@@ -257,6 +282,11 @@ public class DoctorDaoImpl implements DoctorDao {
 					}).collect(Collectors.toList());
 	}
 
+	/**
+	 * @param speciality
+	 * @param experience
+	 * @return
+	 */
 	@Override
 	public List<Doctor> findBySpecialityAndExp(String speciality, int experience) {
 		List<Doctor> showSpeciality = new ArrayList<>();
@@ -308,6 +338,11 @@ public class DoctorDaoImpl implements DoctorDao {
 		}).collect(Collectors.toList());
 	}
 
+	/**
+	 * @param speciality
+	 * @param fees
+	 * @return
+	 */
 	@Override
 	public List<Doctor> findBySpecialityAndFees(String speciality, double fees) {
 		List<Doctor> showSpecialityAndFees = new ArrayList<>();
