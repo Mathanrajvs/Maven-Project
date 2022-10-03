@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.medicine.dao.IMedicineDao;
 import com.medicine.dao.MedicineDaoImpl;
+import com.medicine.model.Cart;
 import com.medicine.model.Medicine;
 import com.medicineapp.exceptions.IdNotFoundException;
 import com.medicineapp.exceptions.MedicineNotFoundException;
@@ -179,8 +180,8 @@ public class MedicineServiceImpl implements IMedicineService {
 	 *@author MathanRajS
 	 */
 	@Override
-	public List<Medicine> getCart(String name) throws MedicineNotFoundException {
-		List<Medicine> medicines=medicineDao.findCart(name);
+	public List<Cart> getCart(int id) throws MedicineNotFoundException {
+		List<Cart> medicines=medicineDao.findCart(id);
 		if(medicines.isEmpty()) {
 			throw new MedicineNotFoundException("MEDICINE IS NOT FOUND");
 		}

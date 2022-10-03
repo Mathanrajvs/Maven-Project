@@ -2,6 +2,7 @@ package com.medicine.dao;
 
 import java.util.List;
 
+import com.medicine.model.Cart;
 import com.medicine.model.Medicine;
 
 public interface IMedicineDao {
@@ -64,7 +65,7 @@ public interface IMedicineDao {
 	 *Show medicines with specific name or medicine id and add it to cart
 	 *@param name the name of the medicine
 	 */
-	List<Medicine> findCart(String name);
+	List<Cart> findCart(int id);
 	
 	
 }

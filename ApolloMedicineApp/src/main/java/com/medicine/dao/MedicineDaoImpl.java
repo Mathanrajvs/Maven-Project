@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.medicine.model.Cart;
 import com.medicine.model.Medicine;
 import com.medicine.util.DbConnection;
 import com.medicine.util.Queries;
@@ -587,10 +588,10 @@ public class MedicineDaoImpl implements IMedicineDao {
 	 *@author MathanRajS
 	 */
 	@Override
-	public List<Medicine> findCart(String name) {
+	public List<Cart> findCart(int id) {
 		Connection connection=DbConnection.openConnection();
 		PreparedStatement preparedstatement=null;
-		List<Medicine> medicineList=new ArrayList<>();
+		List<Cart> cartList=new ArrayList<>();
 //		List<Medicine> cartList=new ArrayList<>();
 //		Scanner sc=new Scanner(System.in);
 //		int cartContinue;
@@ -600,9 +601,9 @@ public class MedicineDaoImpl implements IMedicineDao {
 
 				
 				preparedstatement=connection.prepareStatement(Queries.QUERYBYCART);
-				preparedstatement.setString(1,name+"%");
-				boolean check=preparedstatement.execute();
-				if(!check) {
+				preparedstatement.setInt(1,id);
+				int check=preparedstatement.executeUpdate();
+				if(check==1) {
 					System.out.println("ADDED TO CART");
 				}else {
 					System.out.println("ITEM NOT IN THE LIST");
@@ -613,21 +614,21 @@ public class MedicineDaoImpl implements IMedicineDao {
 				result=preparedstatement.executeQuery();
 					
 					while(result.next()) {
-						Medicine medicine=new Medicine();
+						Cart cart=new Cart();
 						String medicineName=result.getString(1);
 						int Id=result.getInt(2);
-						String categoryType=result.getString(3);
-						String brand=result.getString(4);
-						double costOfTheMedicine=result.getDouble(5);
-						boolean availableMedicine=result.getBoolean(6);
+//						String categoryType=result.getString(3);
+//						String brand=result.getString(4);
+						double cost=result.getDouble(3);
+//						boolean availableMedicine=result.getBoolean(6);
 						
-						medicine.setMedicineName(medicineName);
-						medicine.setMedicineId(Id);
-						medicine.setCategory(categoryType);
-						medicine.setBrand(brand);
-						medicine.setCost(costOfTheMedicine);
-						medicine.setAvailability(availableMedicine);
-						medicineList.add(medicine);
+						cart.setMedicineName(medicineName);
+						cart.setMedicineId(Id);
+//						medicine.setCategory(categoryType);
+//						medicine.setBrand(brand);
+						cart.setCost(cost);
+//						medicine.setAvailability(availableMedicine);
+						cartList.add(cart);
 					}
 					
 				
@@ -652,7 +653,7 @@ public class MedicineDaoImpl implements IMedicineDao {
 				}
 			
 		}
-		return medicineList;
+		return cartList;
 	}
 
 }

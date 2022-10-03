@@ -2,6 +2,7 @@ package com.medicine.service;
 
 import java.util.List;
 
+import com.medicine.model.Cart;
 import com.medicine.model.Medicine;
 import com.medicineapp.exceptions.IdNotFoundException;
 import com.medicineapp.exceptions.MedicineNotFoundException;
@@ -78,5 +79,5 @@ public interface IMedicineService {
 	 *@param name the name of the medicine
 	 *@throws MedicineNotFoundException to throw the exception
 	 */
-	List<Medicine> getCart(String name) throws MedicineNotFoundException;
+	List<Cart> getCart(int id) throws MedicineNotFoundException;
 }

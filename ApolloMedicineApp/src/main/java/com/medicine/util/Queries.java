@@ -16,8 +16,8 @@ public static final String QUERYBYCATEGORYANDBRAND="select * from medicine where
 public static final String QUERYFORCATEORYANDCOST="select * from medicine where category=? and cost=? ";
 
 
-public static final String QUERYFORCREATECART="create table medicineCart(medicineName varchar(20),medicineId int,category varchar(20),brand varchar(20),cost double,availability BIT(1))";
-public static final String QUERYBYCART="insert  into medicineCart(medicineName,medicineId,cost) select medicineName,medicineId,cost from medicine where medicineName=?;";
+public static final String QUERYFORCREATECART="create table medicineCart(medicineName varchar(20),medicineId int,cost double)";
+public static final String QUERYBYCART="insert  into medicineCart(medicineName,medicineId,cost) select medicineName,medicineId,cost from medicine where medicineId=?;";
 public static final String QUERYFORSELECTCART="select * from medicineCart";
 
 }

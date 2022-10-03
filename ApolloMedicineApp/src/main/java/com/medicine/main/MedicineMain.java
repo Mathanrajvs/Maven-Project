@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
+import com.medicine.model.Cart;
 import com.medicine.model.Category;
 import com.medicine.model.Medicine;
 import com.medicine.model.User;
@@ -324,9 +325,9 @@ public class MedicineMain {
 					case 7:
 						System.out.println("Welcome to Appollo cart");
 						try {
-							System.out.println("Enter the medicine name :");
-							String nameInput=sc.nextLine();
-							List<Medicine> medicineCart=medicineService.getCart(nameInput);
+							System.out.println("Enter the medicine ID :");
+							int idInput=sc.nextInt();
+							List<Cart> medicineCart=medicineService.getCart(idInput);
 							medicineCart.forEach(System.out::println);
 							
 						} catch (MedicineNotFoundException e) {
