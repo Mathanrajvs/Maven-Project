@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.medicine.dao"},{"l":"com.medicine.main"},{"l":"com.medicine.model"},{"l":"com.medicine.service"},{"l":"com.medicine.util"},{"l":"com.medicineapp.exceptions"}];updateSearchResults();

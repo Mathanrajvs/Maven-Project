@@ -2,6 +2,7 @@ package com.bookapp.testcases;
 
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
@@ -143,6 +144,68 @@ class OrdDetailsTest {
 		String actual=details.orderBook(bookId);
 		
 		assertEquals("book not ordered",actual);
+	}
+	@Test//check this once again
+	@DisplayName("Test AddBook")
+	void testAddBook(){
+		int bookId=1;
+		//
+		doNothing().when(bookservice).addBook(book1);
+		
+		String actual=details.addBook(book1);
+		
+		assertEquals("Added",actual);
+	}
+	@Test//check this once again
+	@DisplayName("Test AddBook -null")
+	void testAddBookNull(){
+		int bookId=1;
+		//doNothing().when(bookservice).addBook(null);
+		
+		String actual=details.addBook(null);
+		
+		assertEquals("wrong input",actual);
+	}
+	
+	@Test//check this once again
+	@DisplayName("Test Print Message -name")
+	void testPrintMessage(){
+		//doNothing().when(bookservice).addBook(null);
+		doReturn("welcome").when(bookservice).greetMessage();
+		String actual=details.printMessage("mathan");
+		
+		assertEquals("welcome mathan",actual);
+	}
+	@Test//check this once again
+	@DisplayName("Test Print Message -Negative name")
+	void testPrintMessageNeg(){
+		//int bookId=1;
+		//String name="hi";
+		doReturn("welcome").when(bookservice).greetMessage();
+		
+		String actual=details.printMessage("hi");
+		
+		assertEquals("welcome!!!your name does not exist",actual);
+	}
+	@Test//check this once again
+	@DisplayName("Test Print Message -Null")
+	void testPrintMessageNull(){
+		//int bookId=1;
+		//String name="hi";
+		doReturn(null).when(bookservice).greetMessage();
+		
+		String actual=details.printMessage("hi");
+		
+		assertEquals("technical error",actual);
+	}
+	@Test//check this once again
+	@DisplayName("Test Print Message -Exceptions")
+	void testPrintMessageExceptions(){
+		//int bookId=1;
+		//String name="hi";
+		doThrow(BookNotFoundException.class).when(bookservice).greetMessage();
+		
+		assertThrows(BookNotFoundException.class,()->details.printMessage("hi"));
 	}
 
 }

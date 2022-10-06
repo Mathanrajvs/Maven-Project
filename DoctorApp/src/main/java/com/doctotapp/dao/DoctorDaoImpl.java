@@ -23,6 +23,7 @@ public class DoctorDaoImpl implements DoctorDao {
 	/**
 	 * @param doctor
 	 */
+
 	@Override
 	public void addDoctor(Doctor doctor) {
 

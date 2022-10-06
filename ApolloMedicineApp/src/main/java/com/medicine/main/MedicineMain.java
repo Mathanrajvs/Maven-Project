@@ -209,7 +209,7 @@ public class MedicineMain {
 					}
 
 					System.out.println(
-							"1.Show Name \t 2.Show Category \t 3.Show Name and Category \t 4.Show Category and Brand \t5.Show Category and Cost \t6.Check Available Medicine \t7.Add to Cart");
+							"1.Show Name \t 2.Show Category \t 3.Show Name and Category \t 4.Show Category and Brand \t5.Show Category and Cost \t6.Check Available Medicine \t7.Add to Cart \t8.Show Cart");
 					int switchToShowOperation = sc.nextInt();
 					sc.nextLine();
 					switch (switchToShowOperation) {
@@ -325,15 +325,19 @@ public class MedicineMain {
 					case 7:
 						System.out.println("Welcome to Appollo cart");
 						try {
-							System.out.println("Enter the medicine ID :");
-							int idInput=sc.nextInt();
-							List<Cart> medicineCart=medicineService.getCart(idInput);
-							medicineCart.forEach(System.out::println);
+							System.out.println("Enter the medicine Name :");
+							String nameInput=sc.next();
+							List<Cart> medicineCart=medicineService.getCart(nameInput);
+//							medicineCart.forEach(System.out::println);
 							
 						} catch (MedicineNotFoundException e) {
 							// TODO Auto-generated catch block
 							System.out.println(e.getMessage());
 						}
+						break;
+					case 8:
+						System.out.println("Show Booking Details");
+						medicineService.getShowCart();
 						break;
 
 					default:

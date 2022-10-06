@@ -590,7 +590,7 @@ public class MedicineDaoImpl implements IMedicineDao {
 	 *@author MathanRajS
 	 */
 	@Override
-	public List<Cart> findCart(int id) {
+	public List<Cart> findCart(String name) {
 		Connection connection=DbConnection.openConnection();
 		PreparedStatement preparedstatement=null;
 		List<Cart> cartList=new ArrayList<>();
@@ -604,7 +604,7 @@ public class MedicineDaoImpl implements IMedicineDao {
 
 				
 				preparedstatement=connection.prepareStatement(Queries.QUERYBYCART);
-				preparedstatement.setInt(1,id);
+				preparedstatement.setString(1,name+"%");
 				int check=preparedstatement.executeUpdate();
 				if(check==1) {
 					System.out.println("ADDED TO CART");
@@ -613,19 +613,19 @@ public class MedicineDaoImpl implements IMedicineDao {
 					System.exit(0);
 				}
 				preparedstatement.close();
-				preparedstatement=connection.prepareStatement(Queries.QUERYFORSELECTCART);
-				result=preparedstatement.executeQuery();
-//					cartList=rowMapper.mapMedicine(result);
-					while(result.next()) {
-						Cart cart=new Cart();
-						String medicineName=result.getString(1);
-						int Id=result.getInt(2);
-						double cost=result.getDouble(3);
-						cart.setMedicineName(medicineName);
-						cart.setMedicineId(Id);
-						cart.setCost(cost);
-						cartList.add(cart);
-					}
+//				preparedstatement=connection.prepareStatement(Queries.QUERYFORSELECTCART);
+//				result=preparedstatement.executeQuery();
+////					cartList=rowMapper.mapMedicine(result);
+//					while(result.next()) {
+//						Cart cart=new Cart();
+//						String medicineName=result.getString(1);
+//						int Id=result.getInt(2);
+//						double cost=result.getDouble(3);
+//						cart.setMedicineName(medicineName);
+//						cart.setMedicineId(Id);
+//						cart.setCost(cost);
+//						cartList.add(cart);
+//					}
 					
 				
 			
@@ -650,6 +650,54 @@ public class MedicineDaoImpl implements IMedicineDao {
 			
 		}
 		return cartList;
+	}
+	/**
+	 *Show medicines with specific name or medicine id from the cart
+	 */
+	public void findShowCart() {
+		Connection connection=DbConnection.openConnection();
+		PreparedStatement preparedstatement=null;
+		List<Cart> cartList=new ArrayList<>();
+		ResultSet result=null;
+		try{
+			
+				preparedstatement=connection.prepareStatement(Queries.QUERYFORSELECTCART);
+				result=preparedstatement.executeQuery();
+//					cartList=rowMapper.mapMedicine(result);
+					while(result.next()) {
+						Cart cart=new Cart();
+						String medicineName=result.getString(1);
+						int Id=result.getInt(2);
+						double cost=result.getDouble(3);
+						cart.setMedicineName(medicineName);
+						cart.setMedicineId(Id);
+						cart.setCost(cost);
+						cartList.add(cart);
+					}
+					
+				System.out.println(cartList);
+			
+			
+			
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		finally {
+			
+				try {
+					//sc.close();
+					if(result!=null)
+						result.close();
+					if(preparedstatement!=null)
+					preparedstatement.close();
+					DbConnection.closeConnection();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+		}
+		
 	}
 
 }

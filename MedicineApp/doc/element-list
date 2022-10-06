@@ -1,0 +1,6 @@
+com.medicine.dao
+com.medicine.main
+com.medicine.model
+com.medicine.service
+com.medicine.util
+com.medicineapp.exceptions

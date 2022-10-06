@@ -76,8 +76,12 @@ public interface IMedicineService {
 	boolean getByNameAndAvailabilty(String name,boolean present)throws MedicineNotFoundException;
 	/**
 	 *Transfer data to DAO layer to Show medicines with specific name or medicine id and store it in cart
-	 *@param id the id of the medicine
+	 *@param name the name of the medicine
 	 *@throws MedicineNotFoundException to throw the exception
 	 */
-	List<Cart> getCart(int id) throws MedicineNotFoundException;
+	List<Cart> getCart(String name) throws MedicineNotFoundException;
+	/**
+	 *Transfer data to DAO layer to Show medicines with specific name or medicine id from the cart
+	 */
+	void getShowCart();
 }
