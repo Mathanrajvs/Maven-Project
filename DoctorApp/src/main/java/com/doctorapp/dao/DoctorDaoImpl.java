@@ -69,9 +69,13 @@ public class DoctorDaoImpl implements DoctorDao {
 			preparedstatement = connection.prepareStatement(Queries.UPDATEQUERY);
 			preparedstatement.setDouble(1, fees);
 			preparedstatement.setInt(2, doctorId);
-			boolean result = preparedstatement.execute();
-			if (result == false)
-				System.out.println("UPDATED SUCCESSFULLY");
+			int result = preparedstatement.executeUpdate();
+			if (result == 1) {
+				System.out.println("UPDATED SUCCESSFULLY");}
+			else {
+				System.out.println("NOT UPDATED....");
+				System.exit(0);
+			}
 			preparedstatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
