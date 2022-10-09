@@ -1,9 +1,9 @@
-package com.doctotapp.dao;
+package com.doctorapp.dao;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.doctotapp.model.Doctor;
+import com.doctorapp.model.Doctor;
 
 public interface DoctorDao {
 	void addDoctor(Doctor doctor);

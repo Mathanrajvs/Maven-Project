@@ -1,4 +1,4 @@
-package com.doctotapp.model;
+package com.doctorapp.model;
 
 public enum Specialization {
 ORTHO("Orthopeadician"),

@@ -1,4 +1,4 @@
-package com.doctotapp.util;
+package com.doctorapp.util;
 
 public class Queries {
 public static final String CREATEQUERY="create table doctor(doctorName varchar(20),doctorId integer primary key auto_increment,speciality varchar(20),"

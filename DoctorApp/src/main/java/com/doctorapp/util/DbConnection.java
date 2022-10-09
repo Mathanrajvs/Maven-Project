@@ -1,4 +1,4 @@
-package com.doctotapp.util;
+package com.doctorapp.util;
 
 import java.sql.*;
 

@@ -1,11 +1,11 @@
-package com.doctotapp.service;
+package com.doctorapp.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 import com.doctorapp.exceptions.DoctorNotFoundException;
 import com.doctorapp.exceptions.IdNotFoundException;
-import com.doctotapp.model.Doctor;
+import com.doctorapp.model.Doctor;
 
 public interface DoctorService {
 	void addDoctor(Doctor doctor);

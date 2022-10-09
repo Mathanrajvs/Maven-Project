@@ -12,10 +12,10 @@ import javax.swing.text.DateFormatter;
 
 import com.doctorapp.exceptions.DoctorNotFoundException;
 import com.doctorapp.exceptions.IdNotFoundException;
-import com.doctotapp.model.Doctor;
-import com.doctotapp.model.Specialization;
-import com.doctotapp.service.DoctorService;
-import com.doctotapp.service.DoctorServiceImpl;
+import com.doctorapp.model.Doctor;
+import com.doctorapp.model.Specialization;
+import com.doctorapp.service.DoctorService;
+import com.doctorapp.service.DoctorServiceImpl;
 
 public class Client {
 

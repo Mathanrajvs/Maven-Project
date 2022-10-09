@@ -1,4 +1,4 @@
-package com.doctotapp.model;
+package com.doctorapp.model;
 
 import java.time.LocalDateTime;
 

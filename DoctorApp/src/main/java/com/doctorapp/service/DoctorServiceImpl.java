@@ -1,4 +1,4 @@
-package com.doctotapp.service;
+package com.doctorapp.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -6,10 +6,10 @@ import java.util.List;
 //import java.util.stream.Collectors;
 //import java.util.stream.Collectors;
 
+import com.doctorapp.dao.*;
 import com.doctorapp.exceptions.DoctorNotFoundException;
 import com.doctorapp.exceptions.IdNotFoundException;
-import com.doctotapp.dao.*;
-import com.doctotapp.model.Doctor;
+import com.doctorapp.model.Doctor;
 
 public class DoctorServiceImpl implements DoctorService {
 	DoctorDao doctorDao = new DoctorDaoImpl();

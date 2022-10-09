@@ -1,4 +1,4 @@
-package com.doctotapp.dao;
+package com.doctorapp.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.doctotapp.model.Doctor;
-import com.doctotapp.util.DbConnection;
-import com.doctotapp.util.Queries;
+import com.doctorapp.model.Doctor;
+import com.doctorapp.util.DbConnection;
+import com.doctorapp.util.Queries;
 
 /**
  * @author MathanRajS
