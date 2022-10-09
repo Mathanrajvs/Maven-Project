@@ -232,7 +232,7 @@ public class DoctorDaoImpl implements DoctorDao {
 	 */
 	@Override
 	public List<Doctor> findBySpeciality(String speciality) {
-		List<Doctor> showSpeciality = new ArrayList<>();
+		List<Doctor> doctors = new ArrayList<>();
 		Connection connection = DbConnection.openConnection();
 		PreparedStatement preparedstatement = null;
 		Doctor doctor;
@@ -256,7 +256,7 @@ public class DoctorDaoImpl implements DoctorDao {
 				doctor.setExperience(experience);
 				doctor.setStartTime(startTime.toLocalDateTime());
 				doctor.setEndTime(endTime.toLocalDateTime());
-				showSpeciality.add(doctor);
+				doctors.add(doctor);
 			}
 
 			preparedstatement.close();
@@ -280,7 +280,7 @@ public class DoctorDaoImpl implements DoctorDao {
 //		  special.getSpeciality().equalsIgnoreCase("Cardiology");
 //		  }).collect(Collectors.toList());
 		 
-		return showSpeciality.stream().filter((special)->{ return
+		return doctors.stream().filter((special)->{ return
 				  special.getSpeciality().equalsIgnoreCase(speciality);
 				  }).sorted((speciality1, speciality2) -> {
 						return speciality1.getSpeciality().compareTo(speciality2.getSpeciality());
@@ -294,7 +294,7 @@ public class DoctorDaoImpl implements DoctorDao {
 	 */
 	@Override
 	public List<Doctor> findBySpecialityAndExp(String speciality, int experience) {
-		List<Doctor> showSpeciality = new ArrayList<>();
+		List<Doctor> doctors = new ArrayList<>();
 		Connection connection = DbConnection.openConnection();
 		PreparedStatement preparedstatement = null;
 		Doctor doctor = null;
@@ -319,7 +319,7 @@ public class DoctorDaoImpl implements DoctorDao {
 				doctor.setExperience(experiences);
 				doctor.setStartTime(startTime.toLocalDateTime());
 				doctor.setEndTime(endTime.toLocalDateTime());
-				showSpeciality.add(doctor);
+				doctors.add(doctor);
 			}
 
 			preparedstatement.close();
@@ -338,7 +338,7 @@ public class DoctorDaoImpl implements DoctorDao {
 
 		}
 
-		return showSpeciality.stream().sorted((speciality1, speciality2) -> {
+		return doctors.stream().sorted((speciality1, speciality2) -> {
 			return speciality1.getSpeciality().compareTo(speciality2.getSpeciality());
 		}).collect(Collectors.toList());
 	}
@@ -350,7 +350,7 @@ public class DoctorDaoImpl implements DoctorDao {
 	 */
 	@Override
 	public List<Doctor> findBySpecialityAndFees(String speciality, double fees) {
-		List<Doctor> showSpecialityAndFees = new ArrayList<>();
+		List<Doctor> doctors = new ArrayList<>();
 		Connection connection = DbConnection.openConnection();
 		PreparedStatement preparedstatement = null;
 		Doctor doctor = null;
@@ -376,7 +376,7 @@ public class DoctorDaoImpl implements DoctorDao {
 				doctor.setExperience(experience);
 				doctor.setStartTime(startTime.toLocalDateTime());
 				doctor.setEndTime(endTime.toLocalDateTime());
-				showSpecialityAndFees.add(doctor);
+				doctors.add(doctor);
 			}
 
 			preparedstatement.close();
@@ -395,14 +395,14 @@ public class DoctorDaoImpl implements DoctorDao {
 
 		}
 
-		return showSpecialityAndFees.stream().sorted((speciality1, speciality2) -> {
+		return doctors.stream().sorted((speciality1, speciality2) -> {
 			return speciality1.getSpeciality().compareTo(speciality2.getSpeciality());
 		}).collect(Collectors.toList());
 	}
 
 	@Override
 	public List<Doctor> findByAvailailabilty(LocalDateTime startTime) {
-		List<Doctor> showSpecialityAndFees = new ArrayList<>();
+		List<Doctor> doctors = new ArrayList<>();
 		Connection connection = DbConnection.openConnection();
 		PreparedStatement preparedstatement = null;
 
@@ -428,7 +428,7 @@ public class DoctorDaoImpl implements DoctorDao {
 				doctor.setExperience(experience);
 				doctor.setStartTime(startTimeCheck.toLocalDateTime());
 				doctor.setEndTime(endTimeCheck.toLocalDateTime());
-				showSpecialityAndFees.add(doctor);
+				doctors.add(doctor);
 			}
 
 			preparedstatement.close();
@@ -447,7 +447,7 @@ public class DoctorDaoImpl implements DoctorDao {
 
 		}
 
-		return showSpecialityAndFees.stream().sorted().collect(Collectors.toList());
+		return doctors.stream().sorted().collect(Collectors.toList());
 	}
 
 }

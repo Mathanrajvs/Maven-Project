@@ -173,25 +173,5 @@ public class MedicineServiceImpl implements IMedicineService {
 		
 		return medicines;
 	}
-	/**
-	 *Transfer data to DAO layer to Show medicines with specific name or medicine id and store it in cart
-	 *@throws MedicineNotFoundException to throw the exception
-	 *@return List<Cart> to list the medicines
-	 *@author MathanRajS
-	 */
-	@Override
-	public List<Cart> getCart(String name) throws MedicineNotFoundException {
-		List<Cart> medicines=medicineDao.findCart(name);
-//		if(medicines.isEmpty()) {
-//			throw new MedicineNotFoundException("MEDICINE IS NOT FOUND");
-//		}
-		return medicines;
-	}
-	/**
-	 *Transfer data to DAO layer to Show medicines with specific name or medicine id from the cart
-	 */
-	@Override
-	public void getShowCart() {
-		medicineDao.findShowCart();
-	}
+	
 }

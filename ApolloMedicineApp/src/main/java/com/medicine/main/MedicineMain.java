@@ -11,14 +11,20 @@ import com.medicine.model.Cart;
 import com.medicine.model.Category;
 import com.medicine.model.Medicine;
 import com.medicine.model.User;
-import com.medicine.service.*;
+import com.medicine.service.CartServiceImpl;
+import com.medicine.service.ICartService;
+import com.medicine.service.IMedicineService;
+import com.medicine.service.IUserService;
+import com.medicine.service.MedicineServiceImpl;
+import com.medicine.service.UserServiceImpl;
 
 public class MedicineMain {
 
 	public static void main(String[] args) {
 		// IMedicineDao medicineDao = new MedicineDaoImpl();
 		IMedicineService medicineService = new MedicineServiceImpl();
-		IUserService userService = new UserService();
+		IUserService userService = new UserServiceImpl();
+		ICartService cartService=new CartServiceImpl();
 		int choice;
 		try (Scanner sc = new Scanner(System.in)) {
 			do {
@@ -66,13 +72,8 @@ public class MedicineMain {
 						String userIdLogin = sc.next();
 						System.out.println("Enter the Password : ");
 						String passwordLogin = sc.next();
-						int value = userService.login(userIdLogin, passwordLogin);
-						if (value == 1)
-							System.out.println("Login SuccessFully");
-						else {
-							System.out.println("Try Again");
-							System.exit(0);
-						}
+						User userLogin = userService.login(userIdLogin, passwordLogin);
+						System.out.println(userLogin);
 						break;
 					default:
 						System.exit(0);
@@ -194,13 +195,8 @@ public class MedicineMain {
 						String userIdLogin = sc.next();
 						System.out.println("Enter the Password : ");
 						String passwordLogin = sc.next();
-						int value = userService.login(userIdLogin, passwordLogin);
-						if (value == 1)
-							System.out.println("Login SuccessFully");
-						else {
-							System.out.println("Try Again");
-							System.exit(0);
-						}
+						User userLogin = userService.login(userIdLogin, passwordLogin);
+						System.out.println(userLogin);
 						break;
 					default:
 						System.exit(0);
@@ -327,7 +323,7 @@ public class MedicineMain {
 						try {
 							System.out.println("Enter the medicine Name :");
 							String nameInput=sc.next();
-							List<Cart> medicineCart=medicineService.getCart(nameInput);
+							List<Cart> medicineCart=cartService.getCart(nameInput);
 //							medicineCart.forEach(System.out::println);
 							
 						} catch (MedicineNotFoundException e) {
@@ -337,7 +333,7 @@ public class MedicineMain {
 						break;
 					case 8:
 						System.out.println("Show Booking Details");
-						medicineService.getShowCart();
+						cartService.getShowCart();
 						break;
 
 					default:

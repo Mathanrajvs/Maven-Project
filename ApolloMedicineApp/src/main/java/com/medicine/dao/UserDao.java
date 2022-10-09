@@ -83,18 +83,28 @@ public class UserDao implements IUserDao {
 	}
 
 	@Override
-	public int login(String userId, String password) {
+	public User login(String userId, String password) {
 		Connection connection = DbConnection.openConnection();
 		PreparedStatement preparedstatement = null;
+		User user=null;
 		try {
-
+			
 			preparedstatement = connection.prepareStatement(UserQueries.QUERYFORLOGIN);
 			preparedstatement.setString(1,userId);
 			preparedstatement.setString(2,password);
 			ResultSet result=preparedstatement.executeQuery();
 			//System.out.println(result);
-			while(result.next())
-				return 1;
+			while(result.next()) {
+				user=new User();
+				user.setUsername(result.getString(1));
+				user.setName(result.getString(2));
+				user.setMobile(result.getInt(3));
+				user.setEmail(result.getString(4));
+				user.setCity(result.getString(5));
+				user.setUserId(result.getString(6));
+				user.setPassword(result.getString(7));
+			}
+				
 			
 			
 
@@ -112,7 +122,7 @@ public class UserDao implements IUserDao {
 			}
 
 		}
-		return 0;
+		return user;
 	}
 
 }
